@@ -4,13 +4,21 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"text/template"
 )
 
 func homePage(w http.ResponseWriter, r *http.Request) {
-	// Fprintf pritn to the parameter ResponseWriter w
-	html := `<h1>Hello</h1>`
-	w.Header().Set("Content-Type", "text/html")
-	fmt.Fprint(w, html)
+	t, err := template.ParseFiles("index.html")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	err = t.Execute(w, nil)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
 }
 
 func main() {
