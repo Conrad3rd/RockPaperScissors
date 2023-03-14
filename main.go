@@ -5,10 +5,31 @@ import (
 	"log"
 	"net/http"
 	"text/template"
+
+	"github.com/conrad3rd/myapp/rps"
 )
 
 func homePage(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("index.html")
+	renderTemplate(w, "index.html")
+
+}
+
+func playRound(w http.ResponseWriter, r *http.Request) {
+	winner, computerChoice, roundResult := rps.PlayRound(1)
+	log.Println(winner, computerChoice, roundResult)
+}
+
+func main() {
+	http.HandleFunc("/play", playRound)
+	http.HandleFunc("/", homePage)
+
+	log.Println("Starting web server on port 8080")
+	fmt.Println("http://localhost:8080")
+	http.ListenAndServe(":8080", nil)
+}
+
+func renderTemplate(w http.ResponseWriter, page string) {
+	t, err := template.ParseFiles(page)
 	if err != nil {
 		log.Println(err)
 		return
@@ -18,13 +39,4 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-
-}
-
-func main() {
-	http.HandleFunc("/", homePage)
-
-	log.Println("Starting web server on port 8080")
-	fmt.Println("http://localhost:8080")
-	http.ListenAndServe(":8080", nil)
 }
