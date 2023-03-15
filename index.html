@@ -19,6 +19,7 @@
     <p id="player_choice">&nbsp;</p>
     <p id="computer_choice">&nbsp;</p>
     <p class="text-danger" id="round_result">&nbsp;</p>
+    <p class="text-success" id="round_message">&nbsp;</p>
 
     <hr>
     <p>Choos rock, paper or scissors!</p>
@@ -45,6 +46,7 @@
         }
         document.getElementById("computer_choice").innerHTML = data.computer_choice;
         document.getElementById("round_result").innerHTML = data.round_result;
+        document.getElementById("round_message").innerHTML = data.message;
       })
 
 
